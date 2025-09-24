@@ -88,7 +88,7 @@ class TenantController extends Controller
         return view('backend.pages.admin.tenant.show', $data);
     }
 
-    public function edit(Tenant $owner)
+    public function edit(Tenant $tenant)
     {
         $data = array();
         $data['title'] = get_phrase('Edit Tenant ');
@@ -100,7 +100,25 @@ class TenantController extends Controller
         $data['second_link_page_url'] = 'admin.tenants.index';
         $data['second_link_page_icon'] = '<i class="fa fa-plus-square"></i>';
         $data['owners'] = User::where('role', 'owner')->get();
+        $data['tenant'] = $tenant;
         return view('backend.pages.admin.tenant.edit', $data);
+    }
+    public function update(Request $request, Tenant $tenant)
+    {
+        $data = $request->validate([
+            'name' => 'required|string',
+            'contact' => 'nullable|string',
+            'email' => 'nullable|email',
+            'house_owner_id' => 'required|exists:users,id',
+        ]);
+        $update = [
+            'name' => $data['name'],
+            'contact' => $data['contact'],
+            'email' => $data['email'],
+            'house_owner_id' => $data['house_owner_id'],
+        ];
+        $tenant->update($update);
+        return redirect()->route('admin.tenants.index')->with('success', get_phrase('Owner updated successfully'));
     }
 
     public function destroy(Tenant $tenant)

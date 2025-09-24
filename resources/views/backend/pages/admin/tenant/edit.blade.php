@@ -5,14 +5,15 @@
             <div class="portlet box blue">
                 <div class="portlet-title">
                     <div class="caption" style="font-size: 14px;">
-                        <?php echo get_phrase('Create tenants ') ?>
+                        {{$tenant->name.' '.get_phrase('data update') }}
                     </div>
                 </div>
                 <div class="portlet-body">
                     <form id="publicForm" class="bs-example form-horizontal required-form"
-                          action="{{route('admin.tenants.store')}}" method="post"
+                          action="{{route('admin.tenants.update',$tenant)}}" method="post"
                           enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
                         <div class="col-md-12">
 
                             <div class="form-group">
@@ -21,7 +22,7 @@
                                 </label>
                                 <div class="col-sm-4">
                                     <input class="form-control" type="text" name="name" id="name"
-                                           value="" required
+                                           value="{{$tenant->name}}" required
                                            autocomplete="off">
                                 </div>
                             </div>
@@ -30,7 +31,7 @@
                                 </label>
                                 <div class="col-sm-4">
                                     <input class="form-control" type="text" name="contact" id="contact"
-                                           value="" required
+                                           value="{{$tenant->contact}}" required
                                            autocomplete="off">
                                 </div>
                             </div>
@@ -39,7 +40,7 @@
                                 </label>
                                 <div class="col-sm-4">
                                     <input class="form-control" type="email" name="email" id="email"
-                                           value="" required autocomplete="off">
+                                           value="{{$tenant->email}}" required autocomplete="off">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -50,7 +51,7 @@
                                     <select name="house_owner_id" class="form-control chosen-select" id="house_owner_id" required>
                                         <option value="" disabled selected>Select Building</option>
                                         @foreach($owners as $owner)
-                                            <option value="{{ $owner->id }}">{{ $owner->name .' '.$owner->building_address }}</option>
+                                            <option {{$owner->id == $tenant->house_owner_id ?'selected':''}} value="{{ $owner->id }}">{{ $owner->name .' ['.$owner->building_address.']'}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -67,7 +68,7 @@
                                             class="btn blue" type="button"
                                             data-loading-text="<i class='fa fa-spinner fa-spin '></i> Processing ">
                                         <i class="ace-icon fa fa-check bigger-110"></i>
-                                        <?php echo get_phrase('Save') ?>
+                                        <?php echo get_phrase('Update') ?>
                                     </button>
 
                                     &nbsp; &nbsp; &nbsp;
