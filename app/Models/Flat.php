@@ -13,9 +13,6 @@ class Flat extends Model
     protected $fillable = [
         'house_owner_id',
         'flat_number',
-        'owner_name',
-        'owner_contact',
-        'owner_email',
     ];
 
     public function owner()

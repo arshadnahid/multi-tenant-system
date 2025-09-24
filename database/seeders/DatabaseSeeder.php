@@ -54,10 +54,6 @@ class DatabaseSeeder extends Seeder
         $f1 = Flat::firstOrCreate([
             'house_owner_id' => $owner1->id,
             'flat_number' => 'A-101',
-        ], [
-            'owner_name' => 'John Doe',
-            'owner_contact' => '0123456789',
-            'owner_email' => 'john@example.com',
         ]);
         $f2 = Flat::firstOrCreate([
             'house_owner_id' => $owner1->id,

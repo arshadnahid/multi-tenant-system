@@ -12,9 +12,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('house_owner_id')->constrained('users')->cascadeOnDelete();
             $table->string('flat_number');
-            $table->string('owner_name')->nullable();
-            $table->string('owner_contact')->nullable();
-            $table->string('owner_email')->nullable();
             $table->timestamps();
 
             $table->index(['house_owner_id']);
