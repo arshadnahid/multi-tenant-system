@@ -31,12 +31,9 @@ class TenantController extends Controller
                 return [
                     'id' => $t->id,
                     'name' => $t->name,
+                    'building_name' => $t->owner->name,
                     'mobile' => $t->contact ?? '',
                     'email' => $t->email ?? '',
-                    'fcm_id' => '',
-                    'date' => optional($t->created_at)->format('Y-m-d'),
-                    'roles' => 'Tenant',
-                    'image' => '',
                     'action' => view('backend.pages.admin.tenant.btn', ['tenant' => $t])->render(),
                 ];
             })->toArray();
@@ -49,14 +46,24 @@ class TenantController extends Controller
             ]);
         }
 
-        $tenants = Tenant::with(['owner:id,name'])->paginate(20);
-        $owners = User::where('role', 'owner')->get(['id','name','email']);
         $data = array();
         $data['title'] = get_phrase('Tenants');
         $data['module'] = get_phrase('Admin');
-        $data['tenants'] = $tenants;
-        $data['owners'] = $owners;
+        $data['link_page_name'] = get_phrase('Add Tenants');
+        $data['link_page_url'] = 'admin.tenants.create';
+        $data['link_page_icon'] = '<i class="fa fa-plus-square"></i>';
         return view('backend.pages.admin.tenant.index', $data);
+    }
+    public function create()
+    {
+        $data = array();
+        $data['title'] = get_phrase('Create Tenants');
+        $data['module'] = get_phrase('Admin');
+        $data['link_page_name'] = get_phrase('Tenant List');
+        $data['link_page_url'] = 'admin.tenants.index';
+        $data['link_page_icon'] = '<i class="fa fa-list"></i>';
+        $data['owners'] = User::where('role', 'owner')->get(); // Assuming role_id 3 is for house owners
+        return view('backend.pages.admin.tenant.create', $data);
     }
 
     public function store(Request $request)
@@ -66,13 +73,7 @@ class TenantController extends Controller
             'contact' => 'nullable|string',
             'email' => 'nullable|email',
             'house_owner_id' => 'required|exists:users,id',
-            // building fields removed; tenants no longer reference building_id
         ]);
-
-        // Ensure building belongs to owner
-        $building = Building::where('id', $data['assigned_building_id'])
-            ->where('house_owner_id', $data['house_owner_id'])
-            ->firstOrFail();
 
         Tenant::create($data);
         return redirect()->route('admin.tenants.index')->with('success', get_phrase('Tenant created successfully'));
@@ -85,6 +86,21 @@ class TenantController extends Controller
         $data['module'] = get_phrase('Admin');
         $data['tenant'] = $tenant->load(['building', 'owner']);
         return view('backend.pages.admin.tenant.show', $data);
+    }
+
+    public function edit(Tenant $owner)
+    {
+        $data = array();
+        $data['title'] = get_phrase('Edit Tenant ');
+        $data['module'] = get_phrase('Admin');
+        $data['link_page_name'] = get_phrase('Tenant List');
+        $data['link_page_url'] = 'admin.tenants.index';
+        $data['link_page_icon'] = '<i class="fa fa-list"></i>';
+        $data['second_link_page_name'] =  get_phrase('Tenant List');
+        $data['second_link_page_url'] = 'admin.tenants.index';
+        $data['second_link_page_icon'] = '<i class="fa fa-plus-square"></i>';
+        $data['owners'] = User::where('role', 'owner')->get();
+        return view('backend.pages.admin.tenant.edit', $data);
     }
 
     public function destroy(Tenant $tenant)

@@ -30,11 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Admin routes (session-authenticated)
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
         Route::resource('owners', HouseOwnerController::class)->names('owners');
-
-        Route::get('tenants', [AdminTenantController::class, 'index'])->name('tenants.index');
-        Route::post('tenants', [AdminTenantController::class, 'store'])->name('tenants.store');
-        Route::get('tenants/{tenant}', [AdminTenantController::class, 'show'])->name('tenants.show');
-        Route::delete('tenants/{tenant}', [AdminTenantController::class, 'destroy'])->name('tenants.destroy');
+        Route::resource('tenants', AdminTenantController::class)->names('tenants');
     });
 
     // House Owner routes (session-authenticated)

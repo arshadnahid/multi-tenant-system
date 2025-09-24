@@ -5,7 +5,7 @@
             <div class="portlet box blue">
                 <div class="portlet-title">
                     <div class="caption" style="font-size: 14px;">
-                        <?php echo get_phrase('User List') ?>
+                        <?php echo get_phrase('tenant List') ?>
                     </div>
                 </div>
                 <div class="portlet-body">
@@ -14,12 +14,9 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
+                            <th>Building Name</th>
                             <th>Mobile</th>
                             <th>Email</th>
-                            <th>Fcm-id</th>
-                            <th>Date</th>
-                            <th>Roles</th>
-                            <th>Image</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -52,12 +49,9 @@
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'name', name: 'name'},
+                    {data: 'building_name', name: 'building_name'},
                     {data: 'mobile', name: 'mobile'},
                     {data: 'email', name: 'email'},
-                    {data: 'fcm_id', name: 'fcm_id'},
-                    {data: 'date', name: 'date'},
-                    {data: 'roles', name: 'roles'},
-                    {data: 'image', name: 'image'},
                     {data: 'action', name: 'action'},
                 ]
 

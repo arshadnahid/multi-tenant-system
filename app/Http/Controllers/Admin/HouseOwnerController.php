@@ -107,8 +107,8 @@ class HouseOwnerController extends Controller
         $data['link_page_name'] = get_phrase('Home Owner List');
         $data['link_page_url'] = 'admin.owners.index';
         $data['link_page_icon'] = '<i class="fa fa-list"></i>';
-        $data['second_link_page_name'] =  get_phrase('Home Owner List');
-        $data['second_link_page_url'] = 'admin.owners.index';
+        $data['second_link_page_name'] =  get_phrase('Home Owner add');
+        $data['second_link_page_url'] = 'admin.owners.create';
         $data['second_link_page_icon'] = '<i class="fa fa-plus-square"></i>';
         $data['owner'] = $owner;
         return view('backend.pages.admin.home-owner.edit', $data);
