@@ -17,63 +17,13 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-protected $fillable = [
-        'referred_by',
-        'provider',
-        'provider_id',
-        'refresh_token',
-        'access_token',
-        'user_type',
-        'user_name',
+    protected $fillable = [
         'name',
-        'last_name',
         'email',
-        'notification_preferences',
-        'email_verification_token',
-        'verification_token_expire_at',
-        'verification_code',
-        'new_email_verificiation_code',
-        'news_letter',
-        'terms_conditions',
         'password',
-        'remember_token',
-        'device_token',
-        'avatar',
-        'avatar_original',
-        'address',
-        'country',
-        'state',
-        'city',
-        'postal_code',
-        'country_code',
-        'phone',
-        'balance',
-        'banned',
-        'referral_code',
-        'customer_package_id',
-        'remaining_uploads',
-        'two_factor_enabled',
-        'two_factor_secret',
-        'two_factor_recovery_codes',
-        'two_factor_enabled_at',
-        'two_factor_last_used_at',
-        'password_changed_at',
-        'notify_on_new_login',
-        'notify_on_password_change',
-        'notify_on_security_alert',
-        'session_timeout',
-        'allowed_ips',
-        'is_active',
-        'deactivated_at',
-        'scheduled_for_deletion',
-        'deletion_scheduled_at',
-        'deletion_reason',
-        'bio',
-        'date_of_birth',
-        'gender',
-        'language',
-        'timezone',
-        'wishlist_migrated_to_v3',
+        'role',
+        'building_name',
+        'building_address',
     ];
 
     /**
@@ -83,7 +33,6 @@ protected $fillable = [
      */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
     /**
@@ -95,8 +44,40 @@ protected $fillable = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-     public function products()
+
+    public function isAdmin(): bool
     {
-        return $this->hasMany(Product::class);
+        return ($this->role ?? null) === 'admin';
+    }
+
+    public function isOwner(): bool
+    {
+        return ($this->role ?? null) === 'owner';
+    }
+
+    public function isTenant(): bool
+    {
+        return ($this->role ?? null) === 'tenant';
+    }
+    // Buildings removed; building fields live on users table now
+
+    public function flats()
+    {
+        return $this->hasMany(Flat::class, 'house_owner_id');
+    }
+
+    public function billCategories()
+    {
+        return $this->hasMany(BillCategory::class, 'house_owner_id');
+    }
+
+    public function bills()
+    {
+        return $this->hasMany(Bill::class, 'house_owner_id');
+    }
+
+    public function tenants()
+    {
+        return $this->hasMany(Tenant::class, 'house_owner_id');
     }
 }

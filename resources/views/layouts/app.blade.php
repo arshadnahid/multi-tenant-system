@@ -74,7 +74,32 @@
         </nav>
 
         <main class="py-4">
-            @yield('content')
+            @auth
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="list-group mb-4">
+                            <a href="{{ url('/dashboard') }}" class="list-group-item list-group-item-action">Dashboard</a>
+                            @if(auth()->user()->role === 'admin')
+                                <a href="{{ route('admin.owners.index') }}" class="list-group-item list-group-item-action">House Owners</a>
+                                <a href="{{ route('admin.tenants.index') }}" class="list-group-item list-group-item-action">Tenants</a>
+                            @endif
+                            @if(auth()->user()->role === 'owner')
+                                <a href="{{ route('owner.flats.index') }}" class="list-group-item list-group-item-action">Flats</a>
+                                <a href="{{ route('owner.bill_categories.index') }}" class="list-group-item list-group-item-action">Bill Categories</a>
+                                <a href="{{ route('owner.bills.index') }}" class="list-group-item list-group-item-action">Bills</a>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        @yield('content')
+                    </div>
+                </div>
+            </div>
+            @endauth
+            @guest
+                @yield('content')
+            @endguest
         </main>
     </div>
 </body>

@@ -43,7 +43,7 @@
 
                 order: [[0, 'desc']],
                 ajax: {
-                    url: "{{route('admin.owners.index')}}",
+                    url: "{{route('admin.tenants.index')}}",
                     data: function (d) {
                         d.doc_filter = $('#doc_filter').val();
                         d.search = $('input[type="search"]').val();
