@@ -60,7 +60,7 @@
 
                         <span class="username username-hide-on-mobile">  {{ Auth::user()->name }}
                             <span
-                                style='color: #0deafd;'>{{'Role Name'}}
+                                style='color: #0deafd;'>({{ get_phrase(Auth::user()->role) }})
                             </span>
                         </span>
                         <i class="fa fa-angle-down"></i>

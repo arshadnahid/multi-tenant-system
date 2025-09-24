@@ -84,7 +84,7 @@ class TenantController extends Controller
         $data = array();
         $data['title'] = get_phrase('Tenant Details');
         $data['module'] = get_phrase('Admin');
-        $data['tenant'] = $tenant->load(['building', 'owner']);
+        $data['tenant'] = $tenant->load(['owner']);
         return view('backend.pages.admin.tenant.show', $data);
     }
 

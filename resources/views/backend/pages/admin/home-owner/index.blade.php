@@ -5,7 +5,7 @@
             <div class="portlet box blue">
                 <div class="portlet-title">
                     <div class="caption" style="font-size: 14px;">
-                        <?php echo get_phrase('User List') ?>
+                        <?php echo get_phrase('House Owner List') ?>
                     </div>
                 </div>
                 <div class="portlet-body">

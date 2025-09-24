@@ -24,20 +24,25 @@
             </li>
             @auth
                 @if(auth()->user()->role === 'admin')
-                    <li class="nav-item ">
+
+                    <li class="nav-item {{ areActiveRoutes(['admin.owners.index','admin.owners.edit','admin.owners.show','admin.owners.create','admin.tenants.index','admin.tenants.edit','admin.tenants.show','admin.tenants.create'])}}">
                         <a href="javascript:;" class="nav-link nav-toggle">
                             <i class="fa fa-cogs" aria-hidden="true"></i>
                             <span class="title">Administration</span>
                             <span class="arrow"></span>
                         </a>
                         <ul class="sub-menu">
-                            <li class="nav-item "><a href="{{ route('admin.owners.index') }}" class="nav-link ">House Owners</a></li>
-                            <li class="nav-item "><a href="{{ route('admin.tenants.index') }}" class="nav-link ">Tenants</a></li>
+                            <li class="nav-item
+                             {{ areActiveRoutes(['admin.owners.index','admin.owners.edit','admin.owners.show','admin.owners.create'])}}">
+                                <a href="{{ route('admin.owners.index') }}" class="nav-link ">House Owners</a></li>
+                            <li class="nav-item
+                            {{ areActiveRoutes(['admin.tenants.index','admin.tenants.edit','admin.tenants.show','admin.tenants.create'])}}">
+                                <a href="{{ route('admin.tenants.index') }}" class="nav-link ">Tenants</a></li>
                         </ul>
                     </li>
                 @endif
                 @if(auth()->user()->role === 'owner')
-                    <li class="nav-item ">
+                    <li class="nav-item {{ areActiveRoutes(['owner.flats.index'])}}">
                         <a href="javascript:;" class="nav-link nav-toggle">
                             <i class="fa fa-building" aria-hidden="true"></i>
                             <span class="title">My Property</span>
@@ -51,26 +56,7 @@
                     </li>
                 @endif
             @endauth
-            <li class="nav-item ">
-                <a href="javascript:;" class="nav-link nav-toggle">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    <span class="title">{{'User'}}</span>
-                    <span class="arrow"></span>
-                </a>
-                <ul class="sub-menu">
-                    <li class="nav-item ">
-                        <a href="" class="nav-link ">{{get_phrase("User")}}</a>
-                    </li>
-                    <li class="nav-item ">
-                        <a href="" class="nav-link ">{{get_phrase("Roles")}}</a>
-                    </li>
-                    <li class="nav-item ">
-                        <a href=""
-                           class="nav-link ">{{get_phrase("permissions")}}</a>
-                    </li>
 
-                </ul>
-            </li>
         </ul>
     </div>
 </div>
