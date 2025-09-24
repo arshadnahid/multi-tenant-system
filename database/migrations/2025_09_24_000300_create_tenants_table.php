@@ -10,7 +10,6 @@ return new class extends Migration
     {
         Schema::create('tenants', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('assigned_building_id')->nullable()->constrained('buildings')->nullOnDelete();
             $table->foreignId('house_owner_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('name');
             $table->string('contact')->nullable();
