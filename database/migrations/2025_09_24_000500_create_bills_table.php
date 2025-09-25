@@ -15,7 +15,6 @@ return new class extends Migration
             $table->foreignId('house_owner_id')->constrained('users')->cascadeOnDelete();
             $table->string('month'); // e.g., 2025-09
             $table->decimal('amount', 12, 2);
-            $table->decimal('due_carried_forward', 12, 2)->default(0);
             $table->enum('status', ['paid', 'unpaid'])->default('unpaid');
             $table->text('notes')->nullable();
             $table->timestamps();

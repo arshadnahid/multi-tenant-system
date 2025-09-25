@@ -108,7 +108,6 @@ class DatabaseSeeder extends Seeder
             'month' => '2025-09',
         ], [
             'amount' => 80.00,
-            'due_carried_forward' => 75.00,
             'status' => 'unpaid',
         ]);
     }

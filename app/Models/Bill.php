@@ -16,7 +16,6 @@ class Bill extends Model
         'house_owner_id',
         'month',
         'amount',
-        'due_carried_forward',
         'status',
         'notes',
     ];
