@@ -21,7 +21,7 @@
                                 <div class="col-sm-6">
                                     <select name="flat_id" id="flat_id" class="form-control chosen-select" required>
                                         <option value="">-- <?php echo get_phrase('Select') ?> --</option>
-                                        @foreach($falts  as $key => $f)
+                                        @foreach($flats  as $key => $f)
                                             <option value="{{ $f->id }}">{{ $f->flat_number }}</option>
                                         @endforeach
                                     </select>
@@ -114,7 +114,35 @@
                     </div>
                 </div>
                 <div class="portlet-body">
+                    <table  class=" datatable table table-bordered table-striped dataTable dtr-inline">
+                        <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Owner Name</th>
+                            <th>Building Name</th>
+                            <th>Flat Number</th>
+                            <th>Total Bill Amount</th>
+                            <th>Total Paid Amount</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
+                        @foreach($flats as $key => $flat)
+                            <tr>
+                                <td>{{$key+1}}</td>
+                                <td>{{$flat->owner->name}}</td>
+                                <td>{{$flat->owner->building_name}}</td>
+                                <td>{{ $flat->flat_number }}</td>
+                                <td>{{$flat->unpaid_total}}</td>
+                                <td>{{$flat->paid_total}}</td>
+                                <td>
+                                    <a href="{{ route('owner.flats.bills', $flat) }}" class="btn btn-primary btn-sm">View Bills</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -123,5 +151,14 @@
 
 @section('script')
     <script type="text/javascript">
+        $(document).ready(function () {
+            $('#month').datepicker({
+                format: 'yyyy-mm',
+                autoclose: true,
+                minViewMode: 1,
+                todayHighlight: true
+            });
+        });
     </script>
 @endsection
+

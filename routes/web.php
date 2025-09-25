@@ -40,8 +40,9 @@ Route::group(['middleware' => ['auth']], function () {
 
 
         Route::get('bills', [BillController::class, 'index'])->name('bills.index');
+        Route::get('flats/{flat}/bills', [BillController::class, 'getFlatBills'])->name('flats.bills');
         Route::post('bills', [BillController::class, 'store'])->name('bills.store');
-        Route::post('bills/{bill}/mark-paid', [BillController::class, 'markPaid'])->name('bills.mark_paid');
+        Route::get('bills/{bill}/mark-paid', [BillController::class, 'markPaid'])->name('bills.mark_paid');
     });
 });
 

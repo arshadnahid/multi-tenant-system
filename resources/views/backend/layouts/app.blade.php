@@ -528,7 +528,7 @@
 <script src="{{ static_asset('admin/global/plugins/ladda/ladda.min.js') }}" type="text/javascript"></script>
 <script src="{{ static_asset('admin/pages/scripts/ui-buttons-spinners.min.js') }}" type="text/javascript"></script>
 <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.23.0/firebase.js"></script>
+
 
 
 

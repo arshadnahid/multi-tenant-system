@@ -9,6 +9,7 @@ use App\Models\Flat;
 use App\Notifications\BillCreated;
 use App\Notifications\BillPaid;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 
@@ -21,7 +22,18 @@ class BillController extends Controller
         $data['title'] = get_phrase('Make Bill');
         $data['module'] = get_phrase('Owner');
         $data['bill_categories'] = BillCategory::where('house_owner_id', $ownerId)->get();
-        $data['falts'] = Flat::where('house_owner_id', $ownerId)->get();
+        $data['flats'] = Flat::select(
+            'flats.id',
+            'flats.flat_number',
+            'flats.house_owner_id',
+            DB::raw("SUM(CASE WHEN bills.status = 'paid' THEN bills.amount ELSE 0 END) as paid_total"),
+            DB::raw("SUM(CASE WHEN bills.status = 'unpaid' THEN bills.amount ELSE 0 END) as unpaid_total")
+        )
+            ->leftJoin('bills', 'bills.flat_id', '=', 'flats.id')
+            ->where('flats.house_owner_id', $ownerId)
+            ->groupBy('flats.id', 'flats.flat_number', 'flats.house_owner_id')
+            ->with('owner')   // eager load owner
+            ->get();
         return view('backend.pages.bill.index', $data);
     }
 
@@ -58,7 +70,18 @@ class BillController extends Controller
         return redirect()->route('owner.bills.index')
             ->with('success', 'Bill created successfully.');
     }
-
+    public function getFlatBills(Request $request,Flat $flat){
+        abort_unless($flat->house_owner_id === $request->user()->id, 403);
+        $data = array();
+        $data['title'] = get_phrase('Make Bill');
+        $data['module'] = get_phrase('Owner');
+        $data['link_page_name'] = get_phrase('Create bill');
+        $data['link_page_url'] = 'owner.bills.index';
+        $data['link_page_icon'] = '<i class="fa add"></i>';
+        $data['unpaid_bills'] = Bill::where('flat_id', $flat->id)->where('status', 'unpaid')->orderBy('id','desc')->get();
+        $data['paid_bills'] = Bill::where('flat_id', $flat->id)->where('status', 'paid')->get();;
+        return view('backend.pages.bill.flat_bills', $data);
+    }
 
 
     public function markPaid(Request $request, Bill $bill)
@@ -66,7 +89,8 @@ class BillController extends Controller
         abort_unless($bill->house_owner_id === $request->user()->id, 403);
         $bill->update(['status' => 'paid']);
         Notification::route('mail', $request->user()->email)->notify(new BillPaid($bill));
-        return $bill->fresh();
+        return redirect()->route('owner.bills.index')
+            ->with('success', 'Bill Paid successfully.');
     }
 }
 
