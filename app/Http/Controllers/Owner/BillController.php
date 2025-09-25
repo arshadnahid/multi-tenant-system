@@ -21,7 +21,6 @@ class BillController extends Controller
         $data['module'] = get_phrase('Owner');
         $data['bill_categories']= BillCategory::where('house_owner_id', $ownerId)->get();
         $data['falts']= Flat::where('house_owner_id', $ownerId)->get();
-        dd($data);
         return view('backend.pages.bill.index', $data);
     }
 
