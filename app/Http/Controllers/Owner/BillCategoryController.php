@@ -27,7 +27,20 @@ class BillCategoryController extends Controller
         $category = BillCategory::create(['house_owner_id' => $ownerId, 'name' => $data['name']]);
         return redirect()->route('owner.bill_categories.index')->with('success', get_phrase('bill category created successfully'));
     }
-
+    public function edit(Request $request,BillCategory $billCategory)
+    {
+        abort_unless($billCategory->house_owner_id === $request->user()->id, 403);
+        $ownerId = $request->user()->id;
+        $data=array();
+        $data['title'] = get_phrase('Bill Category Edit');
+        $data['module'] = get_phrase('Owner');
+        $data['link_page_name'] = get_phrase('Add Bill Category');
+        $data['link_page_url'] = 'owner.bill_categories.index';
+        $data['link_page_icon'] = '<i class="fa fa-plus-square"></i>';
+        $data['bill_category']= $billCategory;
+        $data['bill_categories']= BillCategory::where('house_owner_id', $ownerId)->get();
+        return view('backend.pages.bill_categories.edit', $data);
+    }
     public function update(Request $request, BillCategory $billCategory)
     {
         abort_unless($billCategory->house_owner_id === $request->user()->id, 403);
@@ -42,7 +55,7 @@ class BillCategoryController extends Controller
     {
         abort_unless($billCategory->house_owner_id === $request->user()->id, 403);
         $billCategory->delete();
-        return response()->noContent();
+        return redirect()->route('owner.bill_categories.index')->with('success', get_phrase('Bill Category successfully'));
     }
 }
 
