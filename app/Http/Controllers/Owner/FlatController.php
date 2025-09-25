@@ -31,6 +31,20 @@ class FlatController extends Controller
         $data['link_page_icon'] = '<i class="fa fa-list"></i>';
         return view('backend.pages.flats.create', $data);
     }
+    public function edit(Flat $flat)
+    {
+        $data = array();
+        $data['title'] = get_phrase('Edit Flat');
+        $data['module'] = get_phrase('Owner');
+        $data['link_page_name'] = get_phrase('Flat List');
+        $data['link_page_url'] = 'owner.flats.index';
+        $data['link_page_icon'] = '<i class="fa fa-list"></i>';
+        $data['second_link_page_name'] =  get_phrase('Flat add');
+        $data['second_link_page_url'] = 'owner.flats.create';
+        $data['second_link_page_icon'] = '<i class="fa fa-plus-square"></i>';
+        $data['flat'] = $flat;
+        return view('backend.pages.flats.edit', $data);
+    }
 
     public function store(Request $request)
     {
@@ -46,20 +60,17 @@ class FlatController extends Controller
     {
         abort_unless($flat->house_owner_id === $request->user()->id, 403);
         $data = $request->validate([
-            'flat_number' => 'sometimes|required|string',
-            'owner_name' => 'nullable|string',
-            'owner_contact' => 'nullable|string',
-            'owner_email' => 'nullable|email',
+            'flat_number' => 'required|string',
         ]);
         $flat->update($data);
-        return $flat;
+        return redirect()->route('owner.flats.index')->with('success', get_phrase('Flat updated successfully'));
     }
 
     public function destroy(Request $request, Flat $flat)
     {
         abort_unless($flat->house_owner_id === $request->user()->id, 403);
         $flat->delete();
-        return response()->noContent();
+        return redirect()->route('owner.flats.index')->with('success', get_phrase('Flat removed successfully'));
     }
 }
 
