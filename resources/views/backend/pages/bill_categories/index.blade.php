@@ -62,10 +62,7 @@
                     </div>
                 </div>
                 <div class="portlet-body">
-                @include('backend.pages.flats.list')
-
-
-
+                @include('backend.pages.bill_categories.list')
                 </div>
             </div>
         </div>

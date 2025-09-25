@@ -16,10 +16,13 @@ class BillController extends Controller
     public function index(Request $request)
     {
         $ownerId = $request->user()->id;
-        return Bill::where('house_owner_id', $ownerId)
-            ->with(['flat:id,flat_number', 'category:id,name'])
-            ->latest()
-            ->paginate(20);
+        $data=array();
+        $data['title'] = get_phrase('Make Bill');
+        $data['module'] = get_phrase('Owner');
+        $data['bill_categories']= BillCategory::where('house_owner_id', $ownerId)->get();
+        $data['falts']= Flat::where('house_owner_id', $ownerId)->get();
+        dd($data);
+        return view('backend.pages.bill.index', $data);
     }
 
     public function store(Request $request)
