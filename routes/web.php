@@ -35,10 +35,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     // House Owner routes (session-authenticated)
     Route::middleware('role:owner')->prefix('owner')->name('owner.')->group(function () {
-        Route::get('flats', [FlatController::class, 'index'])->name('flats.index');
-        Route::post('flats', [FlatController::class, 'store'])->name('flats.store');
-        Route::put('flats/{flat}', [FlatController::class, 'update'])->name('flats.update');
-        Route::delete('flats/{flat}', [FlatController::class, 'destroy'])->name('flats.destroy');
+        Route::resource('flats', FlatController::class)->names('flats');
+
 
         Route::get('bill-categories', [BillCategoryController::class, 'index'])->name('bill_categories.index');
         Route::post('bill-categories', [BillCategoryController::class, 'store'])->name('bill_categories.store');

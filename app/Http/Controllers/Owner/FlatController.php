@@ -12,22 +12,34 @@ class FlatController extends Controller
     public function index(Request $request)
     {
         $ownerId = $request->user()->id;
-        return Flat::where('house_owner_id', $ownerId)->with('building:id,name')->paginate(20);
+        $data = array();
+        $data['title'] = get_phrase('Flat List');
+        $data['module'] = get_phrase('Owner');
+        $data['link_page_name'] = get_phrase('Add Flat');
+        $data['link_page_url'] = 'owner.flats.create';
+        $data['link_page_icon'] = '<i class="fa fa-plus-square"></i>';
+        $data['flats'] =   Flat::where('house_owner_id', $ownerId)->with('owner')->get();
+        return view('backend.pages.flats.index', $data);
+    }
+    public function create()
+    {
+        $data = array();
+        $data['title'] = get_phrase('Create Flat');
+        $data['module'] = get_phrase('Owner');
+        $data['link_page_name'] = get_phrase('Flat List');
+        $data['link_page_url'] = 'owner.flats.index';
+        $data['link_page_icon'] = '<i class="fa fa-list"></i>';
+        return view('backend.pages.flats.create', $data);
     }
 
     public function store(Request $request)
     {
         $ownerId = $request->user()->id;
         $data = $request->validate([
-            'building_id' => 'required|exists:buildings,id',
             'flat_number' => 'required|string',
-            'owner_name' => 'nullable|string',
-            'owner_contact' => 'nullable|string',
-            'owner_email' => 'nullable|email',
         ]);
-        $building = Building::where('id', $data['building_id'])->where('house_owner_id', $ownerId)->firstOrFail();
-        $flat = Flat::create(array_merge($data, ['house_owner_id' => $ownerId]));
-        return response()->json($flat, 201);
+        Flat::create(array_merge($data, ['house_owner_id' => $ownerId]));
+        return redirect()->route('owner.flats.index')->with('success', get_phrase('Flat created successfully'));
     }
 
     public function update(Request $request, Flat $flat)

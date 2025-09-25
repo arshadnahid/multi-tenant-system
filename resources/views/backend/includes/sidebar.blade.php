@@ -42,7 +42,7 @@
                     </li>
                 @endif
                 @if(auth()->user()->role === 'owner')
-                    <li class="nav-item {{ areActiveRoutes(['owner.flats.index'])}}">
+                    <li class="nav-item {{ areActiveRoutes(['owner.flats.index','owner.flats.edit','owner.flats.show','owner.flats.create'])}}">
                         <a href="javascript:;" class="nav-link nav-toggle">
                             <i class="fa fa-building" aria-hidden="true"></i>
                             <span class="title">My Property</span>
