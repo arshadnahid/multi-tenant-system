@@ -532,33 +532,7 @@
 
 
 
-<script>
 
-    var firebaseConfig = {
-        apiKey: "AIzaSyAI4XkDFWuXPMWyteRYvAJ7_xdi_JSHLBY",
-        authDomain: "life-plus-test.firebaseapp.com",
-        projectId: "life-plus-test",
-        storageBucket: "life-plus-test.appspot.com",
-        messagingSenderId: "913928814390",
-        appId: "1:913928814390:web:e2dd97fdc7cfbc11647d97",
-        measurementId: "G-S67E6JEDC2"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const messaging = firebase.messaging();
-
-
-
-    messaging.onMessage(function(payload) {
-        const noteTitle = payload.notification.title;
-        const noteOptions = {
-            body: payload.notification.body,
-            icon: payload.notification.icon,
-        };
-        new Notification(noteTitle, noteOptions);
-    });
-
-</script>
 
 
 @if($errors->any())
@@ -592,6 +566,16 @@
 @endif
 <script>
     $(document).ready(function () {
+        let table = $('.datatable').DataTable({
+            serverSide: false,
+            processing: true,
+            deferRender: true,
+            bLengthChange: true,
+            searchDelay: 500,
+            pageLength: 30,
+
+
+        });
         $(".chosen-select").chosen({allow_single_deselect: true});
         $('#clickmewow').click(function () {
             $('#radio1003').attr('checked', 'checked');
