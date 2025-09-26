@@ -27,7 +27,9 @@ class BillSeeder extends Seeder
                 $month = Carbon::now()->subMonths(19 - $i)->format('Y-m');
                 $categoryId = $categories[$i % count($categories)];
                 $status = $i < 10 ? 'paid' : 'unpaid';
-                $amount = 50 + ($i % 10) * 5; // deterministic but varied
+                $baseAmount = 50 + ($i % 10) * 5; // deterministic but varied
+                // Ensure totals differ between paid and unpaid by offsetting unpaid amounts
+                $amount = $status === 'unpaid' ? $baseAmount + 3 : $baseAmount;
 
                 Bill::firstOrCreate(
                     [
