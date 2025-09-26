@@ -66,7 +66,9 @@ class BillController extends Controller
         ]);
 
         $bill= Bill::create(array_merge($data, ['house_owner_id' => $ownerId]));
-        Notification::route('mail', $request->user()->email)->notify(new BillCreated($bill));
+        if (!empty(env('MAIL_USERNAME'))) {
+            Notification::route('mail', $request->user()->email)->notify(new BillCreated($bill));
+        }
         return redirect()->route('owner.bills.index')
             ->with('success', 'Bill created successfully.');
     }
@@ -89,7 +91,9 @@ class BillController extends Controller
     {
         abort_unless($bill->house_owner_id === $request->user()->id, 403);
         $bill->update(['status' => 'paid']);
-        Notification::route('mail', $request->user()->email)->notify(new BillPaid($bill));
+        if (!empty(env('MAIL_USERNAME'))) {
+            Notification::route('mail', $request->user()->email)->notify(new BillPaid($bill));
+        }
         return redirect()->route('owner.bills.index')
             ->with('success', 'Bill Paid successfully.');
     }
