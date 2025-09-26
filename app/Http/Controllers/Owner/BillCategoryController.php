@@ -14,7 +14,7 @@ class BillCategoryController extends Controller
         $data=array();
         $data['title'] = get_phrase('Bill Category');
         $data['module'] = get_phrase('Owner');
-        $data['bill_categories']= BillCategory::where('house_owner_id', $ownerId)->get();
+        $data['bill_categories']= BillCategory::get();
         return view('backend.pages.bill_categories.index', $data);
     }
 

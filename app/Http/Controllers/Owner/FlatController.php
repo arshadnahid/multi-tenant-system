@@ -18,7 +18,7 @@ class FlatController extends Controller
         $data['link_page_name'] = get_phrase('Add Flat');
         $data['link_page_url'] = 'owner.flats.create';
         $data['link_page_icon'] = '<i class="fa fa-plus-square"></i>';
-        $data['flats'] =   Flat::where('house_owner_id', $ownerId)->with('owner')->get();
+        $data['flats'] =   Flat::with('owner')->get();
         return view('backend.pages.flats.index', $data);
     }
     public function create()

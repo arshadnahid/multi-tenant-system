@@ -21,7 +21,7 @@ class BillController extends Controller
         $data = array();
         $data['title'] = get_phrase('Make Bill');
         $data['module'] = get_phrase('Owner');
-        $data['bill_categories'] = BillCategory::where('house_owner_id', $ownerId)->get();
+        $data['bill_categories'] = BillCategory::get();
         $data['flats'] = Flat::select(
             'flats.id',
             'flats.flat_number',
