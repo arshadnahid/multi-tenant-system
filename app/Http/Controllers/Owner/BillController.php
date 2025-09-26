@@ -79,7 +79,8 @@ class BillController extends Controller
         $data['link_page_url'] = 'owner.bills.index';
         $data['link_page_icon'] = '<i class="fa add"></i>';
         $data['unpaid_bills'] = Bill::where('flat_id', $flat->id)->where('status', 'unpaid')->orderBy('id','desc')->get();
-        $data['paid_bills'] = Bill::where('flat_id', $flat->id)->where('status', 'paid')->get();;
+        $data['paid_bills'] = Bill::where('flat_id', $flat->id)->where('status', 'paid')->get();
+        $data['flat'] = $flat;
         return view('backend.pages.bill.flat_bills', $data);
     }
 

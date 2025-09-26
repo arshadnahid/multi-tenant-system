@@ -5,7 +5,7 @@
             <div class="portlet box red">
                 <div class="portlet-title">
                     <div class="caption" style="font-size: 14px;">
-                        <?php echo get_phrase('Unpaid Bills') ?>
+                        {{get_phrase('Unpaid Bills of')}}  {{'Building : '.$flat->owner->building_name .", Flat :".$flat->flat_number}}
                     </div>
                 </div>
                 <div class="portlet-body">
@@ -42,7 +42,7 @@
             <div class="portlet box blue">
                 <div class="portlet-title">
                     <div class="caption" style="font-size: 14px;">
-                        <?php echo get_phrase('Paid  Bills') ?>
+                        {{get_phrase('Paid Bills of')}}  {{'Building : '.$flat->owner->building_name .", Flat :".$flat->flat_number}}
                     </div>
                 </div>
                 <div class="portlet-body">
