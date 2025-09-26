@@ -4,7 +4,7 @@
         <!-- BEGIN LOGO -->
         <div class="page-logo">
             <a href="#">
-                <img src="https://buzfi.nyc3.digitaloceanspaces.com/nahid/all/yZ8ILgVKa7r3mlRrYRMAlZGEq1sESqF4I7FBFTLE.png" alt="logo" class="logo-default"/> </a>
+                <img src="" alt="logo" class="logo-default"/> </a>
             <div class="menu-toggler sidebar-toggler">
                 <span></span>
             </div>
